@@ -53,10 +53,10 @@ export class InputHandler extends AbstractInputHandler {
         this.leftPressed = this.controllerInput.leftPressed || this.keyboardInput.leftPressed;
         this.rightPressed = this.controllerInput.rightPressed || this.keyboardInput.rightPressed;
 
-        console.log("Up   : " + this.upPressed);
-        console.log("Down : " + this.downPressed);
-        console.log("Left : " + this.leftPressed);
-        console.log("Right: " + this.rightPressed);
+        // console.log("Up   : " + this.upPressed);
+        // console.log("Down : " + this.downPressed);
+        // console.log("Left : " + this.leftPressed);
+        // console.log("Right: " + this.rightPressed);
     }
 }
 
@@ -129,12 +129,16 @@ class InputHandlerKeyboard extends AbstractInputHandler {
             if (this.keys.indexOf(event.code) == -1) {
                 this.keys.push(event.code);
             }
+            console.log(event)
+            console.log(this.keys)
         });
 
         window.addEventListener("keyup", (event) => {
             if (this.keys.indexOf(event.code) >= 0) {
                 this.keys.splice(event.code, 1);
             }
+            console.log(event)
+            console.log(this.keys)
         });
     }
 

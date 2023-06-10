@@ -59,7 +59,6 @@ export class MoveableEntity extends Entity {
       this.speedY = -this.maxSpeedY;
     }
 
-    console.log(Math.abs(this.speedX))
     if (Math.abs(this.speedX) < this.minSpeed) {
       this.speedX = 0.0;
     }
@@ -78,7 +77,6 @@ export class MoveableEntity extends Entity {
    */
   move(entityList) {
     let collsions = this.collidesWithArray(entityList);
-    //console.log(collsions);
     if (collsions.includes("top")) {
       this.speedY = Math.min(this.speedY, 0);
     }
