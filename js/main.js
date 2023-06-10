@@ -15,6 +15,14 @@ function main() {
     const bee = new MoveableEntity("images/Bee.png");
     const ducky = new Entity("images/Ducky.png");
     const floor = new Entity();
+    const key = new Entity("images/Key.png");
+    const chest = new Entity("images/Chest.png");
+
+    chest.x = 500;
+    chest.y = 200;
+
+    key.x = 400;
+    key.y = 200;
     floor.x = 0;
     floor.y = 500;
     floor.width = 1000;
@@ -22,7 +30,7 @@ function main() {
 
     const input = new InputHandler();
 
-    const entities = [bee, floor];
+    const entities = [bee, floor, key, chest, ducky];
     function onUpdate() {
         bee.update(entities);
         input.updateInput();
@@ -36,10 +44,9 @@ function main() {
 
         if (input.rightPressed) {
             move.x += 10;
-        } else
-            if (input.leftPressed) {
-                move.x -= 10;
-            }
+        } else if (input.leftPressed) {
+            move.x -= 10;
+        }
         bee.accelerate(move.x, move.y);
     }
 
@@ -55,8 +62,9 @@ function main() {
         background.height = canvas.height;
         background.draw(context);
 
-        bee.draw(context);
-        ducky.draw(context);
+        for (const entity of entities) {
+            entity.draw(context)
+        }
         requestAnimationFrame(onDraw);
     }
 
