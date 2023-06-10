@@ -3,9 +3,9 @@ export class Entity {
    *
    * @param {string} imageSrc path to image
    */
-  constructor(imageSrc) {
-    this.x = 0;
-    this.y = 0;
+  constructor(imageSrc, x = 0, y = 0) {
+    this.x = x;
+    this.y = y;
 
     if (imageSrc) {
       this.image = new Image();
@@ -16,7 +16,8 @@ export class Entity {
     this.height = this.image?.height ?? 0;
   }
 
-  update() {}
+
+  update() { }
 
   /**
    *

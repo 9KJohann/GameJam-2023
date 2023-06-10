@@ -15,7 +15,7 @@ function main() {
 
     const background = new Entity("images/Level_1_Background.png");
     const bee = new MoveableEntity("images/Bee.png");
-    const ducky = new Entity("images/Ducky.png");
+    const ducky = new Entity("images/Ducky.png", 100, 100);
     const floor = new Entity();
     const key = new Entity("images/Key.png");
     const chest = new Entity("images/Chest.png");
@@ -79,11 +79,12 @@ function main() {
             let line = 0;
             context.font = `${fontsize}px arial`
 
-            let debugStrBee = `speedX=${bee.speedX}  speedY=${bee.speedY}  accelX=${bee.accelerationX}  accelY=${bee.accelerationY}`;
             drawDebugText(context, `speedX=${bee.speedX}`, line++);
             drawDebugText(context, `speedY=${bee.speedY}`, line++);
             drawDebugText(context, `accelX=${bee.accelerationX}`, line++);
             drawDebugText(context, `accelY=${bee.accelerationY}`, line++);
+
+            drawDebugText(context, `collisionX=${bee.collidesWith(ducky)}`, line++);
 
             let debugStrInput = "";
             if (input.upPressed) { debugStrInput += "UP "; }

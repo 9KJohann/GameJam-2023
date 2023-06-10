@@ -21,7 +21,7 @@ export class MoveableEntity extends Entity {
     this.maxAccelerationY = 2;
 
     // Gravity
-    this.gravity = 2;
+    this.gravity = 0;
   }
 
   /** @param {Entity[]} entityList */
@@ -69,16 +69,16 @@ export class MoveableEntity extends Entity {
     let collsions = this.collidesWithArray(entityList);
     //console.log(collsions);
     if (collsions.includes("top")) {
-      this.speedY = 0;
+      this.speedY = Math.min(this.speedY, 0);
     }
     if (collsions.includes("bottom")) {
-      this.speedY = 0;
+      this.speedY = Math.max(this.speedY, 0);
     }
     if (collsions.includes("left")) {
-      this.speedX = 0;
+      this.speedX = Math.min(this.speedX, 0);
     }
     if (collsions.includes("right")) {
-      this.speedX = 0;
+      this.speedX = Math.max(this.speedY, 0);
     }
 
     if (this.x < 0) {
@@ -89,12 +89,12 @@ export class MoveableEntity extends Entity {
     }
     //TODO: add canvas width and height
 
-    if (!(collsions.includes("bottom") || collsions.includes("top"))) {
-      this.y += this.speedY;
-    }
-    if (!(collsions.includes("left") || collsions.includes("right"))) {
-      this.x += this.speedX;
-    }
+    // if (!(collsions.includes("bottom") || collsions.includes("top"))) {
+    this.y += this.speedY;
+    // }
+    // if (!(collsions.includes("left") || collsions.includes("right"))) {
+    this.x += this.speedX;
+    // }
   }
 
   /**
@@ -103,8 +103,8 @@ export class MoveableEntity extends Entity {
    * @param {number} y
    */
   accelerate(x, y) {
-    this.accelerationX += x;
-    this.accelerationY += y;
+    this.accelerationX = x;
+    this.accelerationY = y;
     if (this.accelerationX > this.maxAccelerationX) {
       this.accelerationX = this.maxAccelerationX;
     }
