@@ -30,6 +30,7 @@ export class MoveableEntity extends Entity {
   update(entityList) {
     // Call Superclass Update
     super.update();
+    this.orientation = -this.speedX;
 
 
 
