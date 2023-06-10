@@ -88,7 +88,7 @@ export class MoveableEntity extends Entity {
       this.speedX = Math.min(this.speedX, 0);
     }
     if (collsions.includes("right")) {
-      this.speedX = Math.max(this.speedY, 0);
+      this.speedX = Math.max(this.speedX, 0);
     }
 
     // Wall collision left
