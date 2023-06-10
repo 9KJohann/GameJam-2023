@@ -1,4 +1,5 @@
 import { Entity } from "./Entity.js";
+import { InputHandler } from "./InputHandler.js";
 import { MoveableEntity } from "./MoveableEntity.js";
 import { resizeCanvas } from "./resizeCanvas.js";
 
@@ -19,9 +20,12 @@ function main() {
     floor.width = 1000;
     floor.height = 100;
 
+    const input = new InputHandler();
+
     const entities = [bee, floor];
     function onUpdate() {
         bee.update(entities);
+        input.updateInput();
     }
 
     function onDraw() {
