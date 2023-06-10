@@ -73,16 +73,36 @@ function main() {
 
         // debug stuff
         if (debug) {
-            context.font = "24px arial"
-            let debugStr = "";
-            if (input.upPressed) { debugStr += " UP "; }
-            if (input.downPressed) { debugStr += " DOWN "; }
-            if (input.leftPressed) { debugStr += " LEFT "; }
-            if (input.rightPressed) { debugStr += " RIGHT "; }
-            context.fillText(debugStr, 50, 50,);
+            let debugPosX = 50;
+            let debugPosY = 50;
+            let fontsize = 24;
+            let line = 0;
+            context.font = `${fontsize}px arial`
+
+            let debugStrBee = `speedX=${bee.speedX}  speedY=${bee.speedY}  accelX=${bee.accelerationX}  accelY=${bee.accelerationY}`;
+            drawDebugText(context, `speedX=${bee.speedX}`, line++);
+            drawDebugText(context, `speedY=${bee.speedY}`, line++);
+            drawDebugText(context, `accelX=${bee.accelerationX}`, line++);
+            drawDebugText(context, `accelY=${bee.accelerationY}`, line++);
+
+            let debugStrInput = "";
+            if (input.upPressed) { debugStrInput += "UP "; }
+            if (input.downPressed) { debugStrInput += " DOWN "; }
+            if (input.leftPressed) { debugStrInput += " LEFT "; }
+            if (input.rightPressed) { debugStrInput += " RIGHT "; }
+            drawDebugText(context, debugStrInput, line++);
         }
 
         requestAnimationFrame(onDraw);
+    }
+
+    function drawDebugText(ctx, text, line) {
+        const debugPosX = 50;
+        const debugPosY = 50;
+        const fontsize = 24;
+        ctx.font = `${fontsize}px arial`
+
+        ctx.fillText(text, debugPosX, debugPosY + (line * (fontsize + 4)))
     }
 
     onDraw();
