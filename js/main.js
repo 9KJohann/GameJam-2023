@@ -11,7 +11,7 @@ function main() {
     resizeCanvas();
     window.onresize = resizeCanvas;
 
-    const background = new Entity("images/Level_Background.png");
+    const background = new Entity("images/Level_1_Background.png");
     const bee = new MoveableEntity("images/Bee.png");
     const ducky = new Entity("images/Ducky.png");
     const floor = new Entity();
@@ -26,6 +26,21 @@ function main() {
     function onUpdate() {
         bee.update(entities);
         input.updateInput();
+
+        const move = { x: 0, y: 0 };
+        if (input.upPressed) {
+            move.y -= 10;
+        } else if (input.downPressed) {
+            move.y += 10;
+        }
+
+        if (input.rightPressed) {
+            move.x += 10;
+        } else
+            if (input.leftPressed) {
+                move.x -= 10;
+            }
+        bee.accelerate(move.x, move.y);
     }
 
     function onDraw() {
