@@ -1,19 +1,31 @@
 export class Entity {
-
+    /**
+     * 
+     * @param {string} imageSrc path to image
+     */
     constructor(imageSrc) {
         this.x = 0;
         this.y = 0;
 
-        this.image = new Image();
-        this.image.src = imageSrc;
+        if (imageSrc) {
+            this.image = new Image();
+            this.image.src = imageSrc;
+        }
+
+
+        this.width = this.image?.width ?? 0;
+        this.height = this.image?.height ?? 0;
     }
 
-    update() {
+    update() { }
 
-    }
-
-    /** @param {CanvasRenderingContext2D} context */
+    /**
+     * 
+     * @param {CanvasRenderingContext2D} context 
+     */
     draw(context) {
-        context.drawImage(this.image, this.x, this.y);
+        if (this.image) {
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
     }
 }
