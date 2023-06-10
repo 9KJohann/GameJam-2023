@@ -1,4 +1,6 @@
-export class Entity {
+import { EventEmitter } from "./EventEmitter.js";
+
+export class Entity extends EventEmitter {
   /**
    *
    * @param {string} imageSrc path to image
@@ -15,7 +17,6 @@ export class Entity {
     this.width = this.image?.width ?? 0;
     this.height = this.image?.height ?? 0;
   }
-
 
   update() { }
 
