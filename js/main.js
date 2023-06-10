@@ -74,7 +74,6 @@ function main() {
         // debug stuff
         if (debug) {
             let line = 0;
-            context.font = `${fontsize}px arial`
 
             drawDebugText(context, `speedX=${bee.speedX}`, line++);
             drawDebugText(context, `speedY=${bee.speedY}`, line++);
