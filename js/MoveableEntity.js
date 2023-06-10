@@ -20,6 +20,8 @@ export class MoveableEntity extends Entity {
     this.maxAccelerationX = 2;
     this.maxAccelerationY = 2;
 
+    this.minSpeed = 0.001;
+
     // Gravity
     this.gravity = 0;
   }
@@ -32,8 +34,8 @@ export class MoveableEntity extends Entity {
 
 
     // Deceleration
-    this.speedX *= 0.9;
-    this.speedY *= 0.9;
+    this.speedX *= 0.6;
+    this.speedY *= 0.6;
 
     // Acceleration
     this.speedX += this.accelerationX;
@@ -56,9 +58,17 @@ export class MoveableEntity extends Entity {
       this.speedY = -this.maxSpeedY;
     }
 
+    console.log(Math.abs(this.speedX))
+    if (Math.abs(this.speedX) < this.minSpeed) {
+      this.speedX = 0.0;
+    }
+    if (Math.abs(this.speedY) < this.minSpeed) {
+      this.speedY = 0.0;
+    }
+
     this.move(entityList);
 
-    this.accelerate(0.0, 0.0)
+    // this.accelerate(0.0, 0.0)
   }
 
   /**
@@ -81,9 +91,11 @@ export class MoveableEntity extends Entity {
       this.speedX = Math.max(this.speedY, 0);
     }
 
+    // Wall collision left
     if (this.x < 0) {
       this.x = 0;
     }
+    // Wall collision top
     if (this.y < 0) {
       this.y = 0;
     }
