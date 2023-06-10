@@ -11,7 +11,7 @@ function main() {
     resizeCanvas();
     window.onresize = resizeCanvas;
 
-    const background = new Entity("images/Level_Background.png");
+    const background = new Entity("images/Level_1_Background.png");
     const bee = new MoveableEntity("images/Bee.png");
     const ducky = new Entity("images/Ducky.png");
     const floor = new Entity();
