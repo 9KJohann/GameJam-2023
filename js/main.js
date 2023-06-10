@@ -73,9 +73,6 @@ function main() {
 
         // debug stuff
         if (debug) {
-            let debugPosX = 50;
-            let debugPosY = 50;
-            let fontsize = 24;
             let line = 0;
             context.font = `${fontsize}px arial`
 
@@ -98,10 +95,11 @@ function main() {
     }
 
     function drawDebugText(ctx, text, line) {
-        const debugPosX = 50;
-        const debugPosY = 50;
-        const fontsize = 24;
+        let debugPosX = 400;
+        let debugPosY = 50;
+        let fontsize = 24;
         ctx.font = `${fontsize}px arial`
+        ctx.fillStyle = "#000000"
 
         ctx.fillText(text, debugPosX, debugPosY + (line * (fontsize + 4)))
     }
