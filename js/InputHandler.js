@@ -126,27 +126,40 @@ class InputHandlerKeyboard extends AbstractInputHandler {
         this.KEY_RIGHT = "KeyD";
 
         window.addEventListener("keydown", (event) => {
-            if (this.keys.indexOf(event.code) == -1) {
-                this.keys.push(event.code);
-            }
+            // REMOVED: This code has bugs
+            // if (this.keys.indexOf(event.code) == -1) {
+            //     this.keys.push(event.code);
+            // }
+            if (event.code == this.KEY_UP) { this.upPressed = true; }
+            if (event.code == this.KEY_DOWN) { this.downPressed = true; }
+            if (event.code == this.KEY_LEFT) { this.leftPressed = true; }
+            if (event.code == this.KEY_RIGHT) { this.rightPressed = true; }
+
             console.log(event)
             console.log(this.keys)
         });
 
         window.addEventListener("keyup", (event) => {
-            if (this.keys.indexOf(event.code) >= 0) {
-                this.keys.splice(event.code, 1);
-            }
+            // REMOVED: This code has bugs
+            // if (this.keys.indexOf(event.code) >= 0) {
+            //     this.keys.splice(event.code, 1);
+            // }
+            if (event.code == this.KEY_UP) { this.upPressed = false; }
+            if (event.code == this.KEY_DOWN) { this.downPressed = false; }
+            if (event.code == this.KEY_LEFT) { this.leftPressed = false; }
+            if (event.code == this.KEY_RIGHT) { this.rightPressed = false; }
+
             console.log(event)
             console.log(this.keys)
         });
     }
 
     updateInput() {
-        this.upPressed = (this.keys.indexOf(this.KEY_UP) >= 0);
-        this.downPressed = (this.keys.indexOf(this.KEY_DOWN) >= 0);
-        this.leftPressed = (this.keys.indexOf(this.KEY_LEFT) >= 0);
-        this.rightPressed = (this.keys.indexOf(this.KEY_RIGHT) >= 0);
+        // REMOVED: This code has bugs
+        // this.upPressed = (this.keys.indexOf(this.KEY_UP) >= 0);
+        // this.downPressed = (this.keys.indexOf(this.KEY_DOWN) >= 0);
+        // this.leftPressed = (this.keys.indexOf(this.KEY_LEFT) >= 0);
+        // this.rightPressed = (this.keys.indexOf(this.KEY_RIGHT) >= 0);
     }
 
 }
