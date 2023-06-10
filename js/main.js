@@ -26,6 +26,21 @@ function main() {
     function onUpdate() {
         bee.update(entities);
         input.updateInput();
+
+        const move = { x: 0, y: 0 };
+        if (input.upPressed) {
+            move.y -= 10;
+        } else if (input.downPressed) {
+            move.y += 10;
+        }
+
+        if (input.rightPressed) {
+            move.x += 10;
+        } else
+            if (input.leftPressed) {
+                move.x -= 10;
+            }
+        bee.accelerate(move.x, move.y);
     }
 
     function onDraw() {
