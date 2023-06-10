@@ -6,6 +6,7 @@ export class Entity extends EventEmitter {
    * @param {string} imageSrc path to image
    */
   constructor(imageSrc) {
+    super();
     this.x = 0;
     this.y = 0;
 
