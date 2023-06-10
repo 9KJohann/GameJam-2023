@@ -4,6 +4,8 @@ import { MoveableEntity } from "./MoveableEntity.js";
 import { resizeCanvas } from "./resizeCanvas.js";
 
 function main() {
+    const debug = true;
+
     /** @type {HTMLCanvasElement} */
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext("2d");
@@ -65,6 +67,21 @@ function main() {
         for (const entity of entities) {
             entity.draw(context)
         }
+
+        bee.draw(context);
+        ducky.draw(context);
+
+        // debug stuff
+        if (debug) {
+            context.font = "24px arial"
+            let debugStr = "";
+            if (input.upPressed) { debugStr += " UP "; }
+            if (input.downPressed) { debugStr += " DOWN "; }
+            if (input.leftPressed) { debugStr += " LEFT "; }
+            if (input.rightPressed) { debugStr += " RIGHT "; }
+            context.fillText(debugStr, 50, 50,);
+        }
+
         requestAnimationFrame(onDraw);
     }
 
