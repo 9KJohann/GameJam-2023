@@ -6,10 +6,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameJam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #container {
+            display: grid;
+            place-content: center;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #filler {
+            background-color: black;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+    </style>
 </head>
 
 <body>
-    <canvas id="canvas"></canvas>
+    <div class="container">
+        <!-- filler kann dann genutzt werden um ein hintergrundbild anzuzeigen, falls die aspect ratio nicht passt -->
+        <div id="filler"></div>
+        <canvas id="canvas"></canvas>
+    </div>
     <script src="js/main.js" type="module"></script>
 </body>
 

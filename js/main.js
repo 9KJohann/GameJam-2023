@@ -1,28 +1,33 @@
 import { Entity } from "./Entity.js";
+import { resizeCanvas } from "./resizeCanvas.js";
 
-/** @type {HTMLCanvasElement} */
-const canvas = document.getElementById('canvas');
-const context = canvas.getContext("2d");
+function main() {
+    /** @type {HTMLCanvasElement} */
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext("2d");
 
-const CANVAS_WIDTH = canvas.width;
-const CANVAS_HEIGHT = canvas.height;
+    resizeCanvas();
+    window.onresize = resizeCanvas;
 
-const background = new Image();
-background.src = "images/Cavern.png";
+    const background = new Entity("images/Cavern.png");
+    const bee = new Entity("images/Bee.png");
+    const ducky = new Entity("images/Ducky.png")
 
-const bee = new Entity("images/Bee.png");
-const ducky = new Entity("images/Ducky.png")
+    function onDraw() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
 
+        // mit weiß füllen, damit das canvas sichtbar ist
+        context.fillStyle = "white";
+        context.fillRect(0, 0, canvas.width, canvas.height);
 
-//alert("Hi ich bin nervig!"); // by Kaddah
+        background.draw(context);
 
-function onDraw() {
-    context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    context.drawImage(background, 0, 0, 150, 150);
+        bee.draw(context);
+        ducky.draw(context);
+        requestAnimationFrame(onDraw);
+    }
 
-    bee.draw(context);
-    ducky.draw(context);
-    requestAnimationFrame(onDraw);
+    onDraw();
 }
 
-onDraw();
+window.onload = main;
