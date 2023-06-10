@@ -58,7 +58,7 @@ export class MoveableEntity extends Entity {
 
     this.move(entityList);
 
-    this.accelerate(0.1, -0.1)
+    this.accelerate(0.0, 0.0)
   }
 
   /**
