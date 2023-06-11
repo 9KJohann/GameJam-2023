@@ -13,7 +13,7 @@ function main() {
         document.fonts.add(font);
     });
 
-    const debug = true;
+    const debug = false;
     /** @type {HTMLCanvasElement} */
     const canvas = document.getElementById("canvas");
     const gameContext = new GameContext(canvas);
