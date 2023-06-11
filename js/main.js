@@ -190,10 +190,10 @@ function main() {
             if (debug) {
                 let line = 0;
 
-                drawDebugText(context, `speedX=${bee.speedX}`, line++);
-                drawDebugText(context, `speedY=${bee.speedY}`, line++);
-                drawDebugText(context, `accelX=${bee.accelerationX}`, line++);
-                drawDebugText(context, `accelY=${bee.accelerationY}`, line++);
+                // drawDebugText(context, `speedX=${bee.speedX}`, line++);
+                // drawDebugText(context, `speedY=${bee.speedY}`, line++);
+                // drawDebugText(context, `accelX=${bee.accelerationX}`, line++);
+                // drawDebugText(context, `accelY=${bee.accelerationY}`, line++);
                 drawDebugText(context, JSON.stringify({ position: new Vector2D(gameContext.player.x, gameContext.player.y) }), line++);
 
                 drawDebugText(context, `collisionX=${bee.collidesWith(ducky)}`, line++);
@@ -213,7 +213,8 @@ function main() {
                 }
                 drawDebugText(context, debugStrInput, line++);
 
-                drawDebugText(context, "Bee is at: " + terrain.areaAtPixel(gameContext.player.x, gameContext.player.y), line++);
+                drawDebugText(context, "Bee is at: " + terrain.areaAtPixel(bee.x, bee.y), line++);
+                drawDebugText(context, "Ducky is at: " + terrain.areaAtPixel(ducky.x, ducky.y), line++);
                 drawDebugText(context, "Color is: " + terrain.colorHexAtPixel(gameContext.player.x, gameContext.player.y), line++);
                 drawDebugText(context, `keyCollected=${key.isCollected()}`, line++);
             }
