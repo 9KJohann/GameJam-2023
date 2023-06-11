@@ -1,8 +1,8 @@
 import { rgbaToHex } from "./utils.js";
 
-export const WATER = 0;
-export const AIR = 1;
-export const EARTH = 2;
+export const WATER = "Water";
+export const AIR = "Air";
+export const EARTH = "Earth";
 
 export class LevelTerrain {
 
@@ -55,7 +55,7 @@ export class LevelTerrain {
             return AIR;
         } else {
             console.debug('unkown area for color', color);
-            return -1;
+            return "unknown";
         }
         // switch (color) {
         //     case "#003ebdff":
