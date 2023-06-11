@@ -1,8 +1,16 @@
 import { Entity } from "./Entity.js";
 
 export class MoveableEntity extends Entity {
-  constructor(imageSrc) {
-    super(imageSrc);
+  constructor(
+    imageSrc,
+    x = 0,
+    y = 0,
+    animatable = false,
+    frameHeight = 32,
+    frameWidth = 32,
+    animationStates = []
+  ) {
+    super(imageSrc, x, y, animatable, frameHeight, frameWidth, animationStates);
 
     // Speed
     this.speedX = 0;
