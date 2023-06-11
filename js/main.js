@@ -6,7 +6,7 @@ import { LevelTerrain, WATER, EARTH, AIR } from "./LevelTerrain.js";
 import { MoveableEntity } from "./MoveableEntity.js";
 import { Vector2D } from "./Vector2D.js";
 import { Jar } from "./Jar.js";
-
+window.addEventListener('keydown', e => e.key == 'Escape' && window.close())
 function main() {
     let font = new FontFace("Press Start 2P", "url(font_Press_Start_2P/PressStart2P-Regular.ttf)");
     font.load().then(() => {
@@ -51,13 +51,13 @@ function main() {
     const chest = new Jar("images/Chest_Opened.png", "images/Chest_Closed.png", 815, 945);
     chest.close();
 
-    const jar = new Jar("images/Jar_Opened.png", "images/Jar_Closed.png", 1056, 453);
+    const jar = new Jar("images/Jar_Opened.png", "images/Jar_Closed.png", 1050, 460);
     jar.close();
 
     const bee = new MoveableEntity(
         "images/BeeAnimation.png",
         1055,
-        465,
+        470,
         true,
         50,
         45,
@@ -138,6 +138,8 @@ function main() {
         }
 
 
+        let oldPosition = new Vector2D(gameContext.player.x, gameContext.player.y);
+
         gameContext.player.accelerate(move.x, move.y);
 
         const area = terrain.areaAtPixel(gameContext.player.x, gameContext.player.y);
@@ -148,6 +150,9 @@ function main() {
                 }
                 break;
             case AIR:
+                if (gameContext.player == ducky) {
+                    ducky.accelerate(oldPosition.x, oldPosition.y);
+                }
                 break;
             case EARTH:
                 break;
