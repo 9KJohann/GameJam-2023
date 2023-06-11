@@ -117,12 +117,11 @@ export class MoveableEntity extends Entity {
       this.y = canvasHeight - this.height;
     }
 
-    // if (!(collsions.includes("bottom") || collsions.includes("top"))) {
+    // Check terrain collision
+
+
     this.y += this.speedY;
-    // }
-    // if (!(collsions.includes("left") || collsions.includes("right"))) {
     this.x += this.speedX;
-    // }
   }
 
   /**
