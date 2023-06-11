@@ -4,7 +4,7 @@ export function componentToHex(x) {
 }
 
 export function rgbaToHex(r, g, b, a) {
-    console.log(`RGB: ${r}, ${g}, ${b}`)
+    //console.log(`RGB: ${r}, ${g}, ${b}`)
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b) + componentToHex(a);
 }
 

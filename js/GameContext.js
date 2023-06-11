@@ -1,3 +1,4 @@
+import { MoveableEntity } from './MoveableEntity.js';
 import { Vector2D } from './Vector2D.js'
 
 export class GameContext {
@@ -11,6 +12,9 @@ export class GameContext {
         this.renderingContext = canvas.getContext("2d");
         /** @type {Vector2D} */
         this.scale = new Vector2D(1, 1);
+
+        /** @type {MoveableEntity} */
+        this.player = null;
 
         window.addEventListener('resize', this.onWindowResize.bind(this));
         this.onWindowResize();
