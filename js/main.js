@@ -91,13 +91,11 @@ function main() {
         ]
     );
 
-    const duckyHasKey = true;
-
     ducky.on('collision', (entity) => {
         if (entity == jar) {
             jar.open();
         }
-        if (entity == chest && duckyHasKey) {
+        if (entity == chest && ducky.collected === key) {
             chest.open();
             won = true;
         }
