@@ -138,6 +138,8 @@ function main() {
         }
 
 
+        let oldPosition = new Vector2D(gameContext.player.x, gameContext.player.y);
+
         gameContext.player.accelerate(move.x, move.y);
 
         const area = terrain.areaAtPixel(gameContext.player.x, gameContext.player.y);
@@ -148,6 +150,9 @@ function main() {
                 }
                 break;
             case AIR:
+                if (gameContext.player == ducky) {
+                    ducky.accelerate(oldPosition.x, oldPosition.y);
+                }
                 break;
             case EARTH:
                 break;
