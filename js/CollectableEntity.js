@@ -14,8 +14,15 @@ export class CollectableEntity extends Entity {
     ) {
         super(imageSrc, x, y, animatable, frameHeight, frameWidth, animationStates);
         this.collected = false;
+        this.collectedBy = null;
 
-        this.on('collision', (entity, collision) => { if (entity instanceof MoveableEntity) { this.collect(); } });
+        this.timer = 0;
+
+        this.on('collision', (entity, collision) => {
+            if (entity instanceof MoveableEntity) {
+                if (!this.isCollected() && this.timer > 200) { this.collect(); this.collectedBy = entity; entity.collect(this); }
+            }
+        });
     }
 
     /** @param {Entity[]} entityList */
@@ -27,6 +34,16 @@ export class CollectableEntity extends Entity {
                 this.collidesWith(entity);
             }
         }
+
+        this.timer++;
+    }
+
+    drop() {
+        this.x = this.collectedBy.x;
+        this.y = this.collectedBy.y;
+        this.collected = false;
+        this.collectedBy = null;
+        this.timer = 0;
     }
 
     collect() {

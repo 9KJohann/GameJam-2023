@@ -32,6 +32,14 @@ function main() {
         start = true;
     });
 
+    window.addEventListener(InputHandler.EVENT_SWAP, () => {
+        if (gameContext.player == bee) {
+            gameContext.player = ducky;
+        } else {
+            gameContext.player = bee;
+        }
+    });
+
     const background = new Entity("images/Level_1_Background.png");
     const startScreen = new Entity("images/Start_Background.png");
     const terrain = new LevelTerrain("images/Level_1_Background_Collision.png")
@@ -48,8 +56,12 @@ function main() {
         465,
         true,
         50,
-        50,
+        45,
         [
+            {
+                name: "carry",
+                frames: 4,
+            },
             {
                 name: "idle",
                 frames: 4,
@@ -114,9 +126,18 @@ function main() {
             move.x -= 10;
         }
 
+
         if (gameContext.player == bee && !jar.isOpened()) {
             return;
         }
+
+        //TODO correct drop button
+        if (input.downPressed && input.upPressed) {
+            //console.log("drop");
+            bee.drop();
+
+        }
+
 
         gameContext.player.accelerate(move.x, move.y);
 

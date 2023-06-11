@@ -32,6 +32,9 @@ export class MoveableEntity extends Entity {
 
     // Gravity
     this.gravity = 0;
+
+    // Collected Entity
+    this.collected = null;
   }
 
   /** @param {Entity[]} entityList */
@@ -76,7 +79,22 @@ export class MoveableEntity extends Entity {
 
     this.move(entityList);
 
-    // this.accelerate(0.0, 0.0)
+    // Set acceleration to 0
+    this.accelerate(0.0, 0.0)
+  }
+
+  /** @param {CollectableEntity} otherEntity */
+  collect(otherEntity) {
+    this.collected = otherEntity;
+    this.currentState = "carry"
+  }
+
+  drop() {
+    if (this.collected != null) {
+      super.currentState = "idle";
+      this.collected.drop();
+      this.collected = null;
+    }
   }
 
   /**
