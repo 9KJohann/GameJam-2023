@@ -25,11 +25,24 @@ function main() {
         [
             {
                 name: "idle",
-                frames: 3,
+                frames: 4,
             },
         ]
     );
-    const ducky = new Entity("images/Ducky.png", 200, 200);
+    const ducky = new MoveableEntity(
+        "images/DuckyAnimation.png",
+        200,
+        200,
+        true,
+        50,
+        50,
+        [
+            {
+                name: "idle",
+                frames: 5,
+            },
+        ]
+    );
     const floor = new Entity();
     const key = new CollectableEntity("images/Key.png");
     const chest = new Entity("images/Chest.png");
