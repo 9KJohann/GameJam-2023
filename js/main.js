@@ -103,7 +103,10 @@ function main() {
         ctx.fillText(text, debugPosX, debugPosY + (line * (fontsize + 4)))
     }
 
-    onDraw();
+    // wait until all entities loaded
+    Promise
+        .all(entities.map(entity => entity.isLoaded()))
+        .then(() => requestAnimationFrame(onDraw));
 }
 
 window.onload = main;

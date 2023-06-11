@@ -19,6 +19,14 @@ export class Entity extends EventEmitter {
     this.height = this.image?.height ?? 0;
   }
 
+  isLoaded() {
+    return new Promise((resolve) => {
+      if (!this.image) return resolve();
+      if (this.image.complete) return resolve();
+      this.image.onload = resolve;
+    })
+  }
+
   update() { }
 
   /**
