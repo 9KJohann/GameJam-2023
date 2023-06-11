@@ -42,6 +42,7 @@ export class InputHandler extends AbstractInputHandler {
 
     // Constants
     static get EVENT_SWAP() { return "swap"; }
+    static get EVENT_DROP() { return "drop"; }
 
     updateInput() {
         if (this.keyboardInput !== null) {
@@ -127,7 +128,8 @@ class InputHandlerKeyboard extends AbstractInputHandler {
         this.KEY_DOWN = "KeyS";
         this.KEY_LEFT = "KeyA";
         this.KEY_RIGHT = "KeyD";
-        this.KEY_SWAP = "Space";
+        this.KEY_SWAP = "KeyU";
+        this.KEY_DROP = "KeyI";
 
         window.addEventListener("keydown", (event) => {
             // REMOVED: This code has bugs
@@ -141,6 +143,7 @@ class InputHandlerKeyboard extends AbstractInputHandler {
 
             // Swap shall only occur once for each keydown event
             if (event.code == this.KEY_SWAP) { window.dispatchEvent(new Event(InputHandler.EVENT_SWAP)) }
+            if (event.code == this.KEY_DROP) { window.dispatchEvent(new Event(InputHandler.EVENT_DROP)) }
 
             //console.log(event)
             // console.log(this.keys)

@@ -31,10 +31,13 @@ export class Entity extends EventEmitter {
         this.orientation = 1;
         this.lastOrientation = 1; //looks left
 
-        if (!animatable) {
-            this.width = this.image?.width ?? 0;
-            this.height = this.image?.height ?? 0;
-        }
+
+        this.image.addEventListener('load', () => {
+            if (!animatable) {
+                this.width = this.image?.width ?? 0;
+                this.height = this.image?.height ?? 0;
+            }
+        });
 
         if (animatable) {
             this.animatable = animatable;
