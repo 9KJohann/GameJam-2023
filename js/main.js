@@ -70,10 +70,14 @@ function main() {
         520,
         true,
         50,
-        50,
+        42,
         [
             {
                 name: "idle",
+                frames: 5,
+            },
+            {
+                name: "carry",
                 frames: 5,
             },
         ]
