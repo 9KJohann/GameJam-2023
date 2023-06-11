@@ -31,6 +31,14 @@ function main() {
         start = true;
     });
 
+    window.addEventListener(InputHandler.EVENT_SWAP, () => {
+        if (gameContext.player == bee) {
+            gameContext.player = ducky;
+        } else {
+            gameContext.player = bee;
+        }
+    });
+
     const background = new Entity("images/Level_1_Background.png");
     const startScreen = new Entity("images/Start_Background.png");
     const terrain = new LevelTerrain("images/Level_1_Background_Collision.png")
