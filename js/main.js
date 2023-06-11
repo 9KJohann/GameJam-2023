@@ -5,7 +5,7 @@ import { InputHandler } from "./InputHandler.js";
 import { LevelTerrain, WATER, EARTH, AIR } from "./LevelTerrain.js";
 import { MoveableEntity } from "./MoveableEntity.js";
 import { Vector2D } from "./Vector2D.js";
-import { resizeCanvas } from "./resizeCanvas.js";
+import { Jar } from "./Jar.js";
 
 function main() {
     let font = new FontFace("Press Start 2P", "url(font_Press_Start_2P/PressStart2P-Regular.ttf)");
@@ -35,11 +35,13 @@ function main() {
     const startScreen = new Entity("images/Start_Background.png");
     const terrain = new LevelTerrain("images/Level_1_Background_Collision.png")
 
-    const jar = new Entity("images/Jar.png", 1170, 690);
+    const jar = new Jar("images/Jar_Opened.png", "images/Jar_Closed.png", 1056, 453);
+    jar.close();
+
     const bee = new MoveableEntity(
         "images/BeeAnimation.png",
-        1180,
-        700,
+        1055,
+        465,
         true,
         50,
         50,
@@ -65,6 +67,12 @@ function main() {
         ]
     );
 
+    ducky.on('collision', (entity) => {
+        if (entity == jar) {
+            jar.open();
+        }
+    })
+
     const key = new CollectableEntity("images/Key.png");
     const chest = new Entity("images/Chest.png");
 
@@ -78,7 +86,7 @@ function main() {
 
     const entities = [bee, chest, ducky, jar];
     const collectables = [key];
-    gameContext.player = bee;
+    gameContext.player = ducky;
     function onUpdate() {
         bee.update(entities);
         ducky.update(entities);
