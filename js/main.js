@@ -7,14 +7,27 @@ function main() {
     const debug = true;
 
     /** @type {HTMLCanvasElement} */
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
 
     resizeCanvas();
     window.onresize = resizeCanvas;
 
     const background = new Entity("images/Level_1_Background.png");
-    const bee = new MoveableEntity("images/Bee.png");
+    const bee = new MoveableEntity(
+        "images/BeeAnimation.png",
+        100,
+        100,
+        true,
+        50,
+        50,
+        [
+            {
+                name: "idle",
+                frames: 3,
+            },
+        ]
+    );
     const ducky = new Entity("images/Ducky.png", 100, 100);
     const floor = new Entity();
     const key = new Entity("images/Key.png");
@@ -65,7 +78,7 @@ function main() {
         background.draw(context);
 
         for (const entity of entities) {
-            entity.draw(context)
+            entity.draw(context);
         }
 
         bee.draw(context);
@@ -83,10 +96,18 @@ function main() {
             drawDebugText(context, `collisionX=${bee.collidesWith(ducky)}`, line++);
 
             let debugStrInput = "";
-            if (input.upPressed) { debugStrInput += "UP "; }
-            if (input.downPressed) { debugStrInput += " DOWN "; }
-            if (input.leftPressed) { debugStrInput += " LEFT "; }
-            if (input.rightPressed) { debugStrInput += " RIGHT "; }
+            if (input.upPressed) {
+                debugStrInput += "UP ";
+            }
+            if (input.downPressed) {
+                debugStrInput += " DOWN ";
+            }
+            if (input.leftPressed) {
+                debugStrInput += " LEFT ";
+            }
+            if (input.rightPressed) {
+                debugStrInput += " RIGHT ";
+            }
             drawDebugText(context, debugStrInput, line++);
         }
 
@@ -97,10 +118,10 @@ function main() {
         let debugPosX = 400;
         let debugPosY = 50;
         let fontsize = 24;
-        ctx.font = `${fontsize}px arial`
-        ctx.fillStyle = "#000000"
+        ctx.font = `${fontsize}px arial`;
+        ctx.fillStyle = "#000000";
 
-        ctx.fillText(text, debugPosX, debugPosY + (line * (fontsize + 4)))
+        ctx.fillText(text, debugPosX, debugPosY + line * (fontsize + 4));
     }
 
     // wait until all entities loaded

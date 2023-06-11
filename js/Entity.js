@@ -4,8 +4,22 @@ export class Entity extends EventEmitter {
   /**
    *
    * @param {string} imageSrc path to image
+   * @param {number} x starting x position
+   * @param {number} y starting y position
+   * @param {boolean} animatable is the image animatable
+   * @param {number} frameHeight height of each frame
+   * @param {number} frameWidth width of each frame
+   * @param {string[]} animationStates array of animation states
    */
-  constructor(imageSrc, x = 0, y = 0) {
+  constructor(
+    imageSrc,
+    x = 0,
+    y = 0,
+    animatable = false,
+    frameHeight = 32,
+    frameWidth = 32,
+    animationStates = []
+  ) {
     super();
     this.x = x;
     this.y = y;
@@ -15,8 +29,38 @@ export class Entity extends EventEmitter {
       this.image.src = imageSrc;
     }
     this.orientation = 1;
-    this.width = this.image?.width ?? 0;
-    this.height = this.image?.height ?? 0;
+    if (!animatable) {
+      this.width = this.image?.width ?? 0;
+      this.height = this.image?.height ?? 0;
+    }
+
+    if (animatable) {
+      this.animatable = animatable;
+      this.sourceX = 0;
+      this.sourceY = 0;
+      this.width = frameHeight;
+      this.height = frameWidth;
+      this.animationStates = animationStates;
+
+      this.gameFrame = 0;
+
+      this.staggerFrames = 5;
+      this.spriteAnimations = [];
+
+      this.currentState = "idle";
+
+      this.animationStates.forEach((state, index) => {
+        let frames = {
+          loc: [],
+        };
+        for (let j = 0; j < state.frames; j++) {
+          let positionX = j * this.width;
+          let positionY = index * this.height;
+          frames.loc.push({ x: positionX, y: positionY });
+        }
+        this.spriteAnimations[state.name] = frames;
+      });
+    }
   }
 
   isLoaded() {
@@ -35,12 +79,56 @@ export class Entity extends EventEmitter {
    */
   draw(context) {
     if (this.image) {
-      if (this.orientation < 0) {
-        context.scale(-1, 1);
-        context.drawImage(this.image, -this.x, this.y, -this.width, this.height);
-        context.scale(-1, 1);
+      if (this.animatable) {
+        console.log(this.spriteAnimations);
+        let position =
+          Math.floor(this.gameFrame / this.staggerFrames) %
+          this.spriteAnimations[this.currentState].loc.length;
+
+        let frameX = this.spriteAnimations[this.currentState].loc[position].x;
+        let frameY = this.spriteAnimations[this.currentState].loc[position].y;
+
+        if (this.orientation < 0) {
+          context.scale(-1, 1);
+          context.drawImage(
+            this.image,
+            frameX,
+            frameY,
+            this.width,
+            this.height,
+            -this.x,
+            this.y,
+            -this.width,
+            this.height
+          );
+          context.scale(-1, 1);
+        } else {
+          context.drawImage(
+            this.image,
+            frameX,
+            frameY,
+            this.width,
+            this.height,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+          );
+        }
+
+
+
+        this.gameFrame++;
       } else {
-        context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        {
+          if (this.orientation < 0) {
+            context.scale(-1, 1);
+            context.drawImage(this.image, -this.x, this.y, -this.width, this.height);
+            context.scale(-1, 1);
+          } else {
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+          }
+        }
       }
     }
   }

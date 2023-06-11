@@ -1,8 +1,16 @@
 import { Entity } from "./Entity.js";
 
 export class MoveableEntity extends Entity {
-  constructor(imageSrc) {
-    super(imageSrc);
+  constructor(
+    imageSrc,
+    x = 0,
+    y = 0,
+    animatable = false,
+    frameHeight = 32,
+    frameWidth = 32,
+    animationStates = []
+  ) {
+    super(imageSrc, x, y, animatable, frameHeight, frameWidth, animationStates);
 
     // Speed
     this.speedX = 0;
@@ -59,7 +67,6 @@ export class MoveableEntity extends Entity {
       this.speedY = -this.maxSpeedY;
     }
 
-    console.log(Math.abs(this.speedX))
     if (Math.abs(this.speedX) < this.minSpeed) {
       this.speedX = 0.0;
     }
@@ -78,7 +85,6 @@ export class MoveableEntity extends Entity {
    */
   move(entityList) {
     let collsions = this.collidesWithArray(entityList);
-    //console.log(collsions);
     if (collsions.includes("top")) {
       this.speedY = Math.min(this.speedY, 0);
     }
@@ -100,7 +106,16 @@ export class MoveableEntity extends Entity {
     if (this.y < 0) {
       this.y = 0;
     }
-    //TODO: add canvas width and height
+    // Wall collision right
+    let canvasWidth = document.getElementById("canvas").width;
+    if (this.x > canvasWidth - this.width) {
+      this.x = canvasWidth - this.width;
+    }
+    // Wall collision bottom
+    let canvasHeight = document.getElementById("canvas").height;
+    if (this.y > canvasHeight - this.height) {
+      this.y = canvasHeight - this.height;
+    }
 
     // if (!(collsions.includes("bottom") || collsions.includes("top"))) {
     this.y += this.speedY;
