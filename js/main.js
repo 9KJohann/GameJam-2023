@@ -1,18 +1,17 @@
 import { CollectableEntity } from "./CollectableEntity.js";
 import { Entity } from "./Entity.js";
+import { GameContext } from "./GameContext.js";
 import { InputHandler } from "./InputHandler.js";
 import { MoveableEntity } from "./MoveableEntity.js";
 import { resizeCanvas } from "./resizeCanvas.js";
 
 function main() {
     const debug = true;
-
     /** @type {HTMLCanvasElement} */
     const canvas = document.getElementById("canvas");
-    const context = canvas.getContext("2d");
+    const gameContext = new GameContext(canvas);
+    const context = gameContext.renderingContext;
 
-    resizeCanvas();
-    window.onresize = resizeCanvas;
 
     const background = new Entity("images/Level_1_Background.png");
     const bee = new MoveableEntity(
@@ -96,7 +95,9 @@ function main() {
         // zeichnen
         background.width = canvas.width;
         background.height = canvas.height;
-        background.draw(context);
+        //background.draw(context); // eigentlich sollte der Background so gezeichnet werden, allerdings wurde etwas in Entity geändert, wodurch der background nicht mehr richtig gezeichnet wird.
+        context.drawImage(background.image, 0, 0);
+
 
         for (const entity of entities) {
             entity.draw(context);
