@@ -116,8 +116,6 @@ function main() {
             move.x -= 10;
         }
 
-        // Give input to active entity
-        // TODO: bee or ducky, depending on which is active
 
         if (gameContext.player == bee && !jar.isOpened()) {
             return;
