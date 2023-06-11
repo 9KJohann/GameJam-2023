@@ -294,7 +294,7 @@ function main() {
 
 
     function drawDebugText(ctx, text, line) {
-        let debugPosX = 400;
+        let debugPosX = 600;
         let debugPosY = 50;
         let fontsize = 24;
         ctx.font = `${fontsize}px arial`;
