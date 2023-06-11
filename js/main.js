@@ -161,7 +161,7 @@ function main() {
 
     function onDraw() {
         if (start) {
-            if (!lost) {
+            if (!lost && !won) {
                 onUpdate();
             }
             // canvas leeren
