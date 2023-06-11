@@ -62,6 +62,9 @@ function main() {
         } else if (input.leftPressed) {
             move.x -= 10;
         }
+
+        // Give input to active entity
+        // TODO: bee or ducky, depending on which is active
         bee.accelerate(move.x, move.y);
     }
 
