@@ -82,7 +82,7 @@ export class Entity extends EventEmitter {
     draw(context) {
         if (this.image) {
             if (this.animatable) {
-                //console.log(this.spriteAnimations);
+                // console.log(this.spriteAnimations);
                 let position =
                     Math.floor(this.gameFrame / this.staggerFrames) %
                     this.spriteAnimations[this.currentState].loc.length;
@@ -112,6 +112,7 @@ export class Entity extends EventEmitter {
                     if (this.lastOrientation == -1) {
                         context.scale(-1, 1);
                         context.drawImage(this.image, frameX, frameY, this.width, this.height, -this.x, this.y, -this.width, this.height);
+                        context.scale(-1, 1);
                     }
                 }
                 if (this.orientation > 0) {
@@ -137,6 +138,7 @@ export class Entity extends EventEmitter {
                     if (this.orientation < 0) {
                         context.scale(-1, 1);
                         context.drawImage(this.image, -this.x, this.y, -this.width, this.height);
+                        context.scale(-1, 1);
                     } else {
                         context.drawImage(this.image, this.x, this.y, this.width, this.height);
                     }
@@ -147,6 +149,7 @@ export class Entity extends EventEmitter {
 
     /** @param {Entity} other */
     collidesWith(other) {
+        if (this === other) return "none";
         let dx = this.x + this.width / 2 - (other.x + other.width / 2);
         let dy = this.y + this.height / 2 - (other.y + other.height / 2);
         let width = (this.width + other.width) / 2;
@@ -161,6 +164,11 @@ export class Entity extends EventEmitter {
             } else {
                 collision = crossWidth > -crossHeight ? "right" : "top";
             }
+        }
+
+        if (collision !== "none") {
+            //console.log("collision", this, other, collision);
+            this.emit("collision", other, collision);
         }
         return collision;
     }
