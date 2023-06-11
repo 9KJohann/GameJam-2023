@@ -40,6 +40,10 @@ function main() {
         }
     });
 
+    window.addEventListener(InputHandler.EVENT_DROP, () => {
+        gameContext.player?.drop();
+    });
+
     const background = new Entity("images/Level_1_Background.png");
     const startScreen = new Entity("images/Start_Background.png");
     const terrain = new LevelTerrain("images/Level_1_Background_Collision.png")
@@ -129,13 +133,6 @@ function main() {
 
         if (gameContext.player == bee && !jar.isOpened()) {
             return;
-        }
-
-        //TODO correct drop button
-        if (input.downPressed && input.upPressed) {
-            //console.log("drop");
-            bee.drop();
-
         }
 
 
