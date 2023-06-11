@@ -106,7 +106,16 @@ export class MoveableEntity extends Entity {
     if (this.y < 0) {
       this.y = 0;
     }
-    //TODO: add canvas width and height
+    // Wall collision right
+    let canvasWidth = document.getElementById("canvas").width;
+    if (this.x > canvasWidth - this.width) {
+      this.x = canvasWidth - this.width;
+    }
+    // Wall collision bottom
+    let canvasHeight = document.getElementById("canvas").height;
+    if (this.y > canvasHeight - this.height) {
+      this.y = canvasHeight - this.height;
+    }
 
     // if (!(collsions.includes("bottom") || collsions.includes("top"))) {
     this.y += this.speedY;

@@ -65,6 +65,14 @@ export class Entity extends EventEmitter {
         }
     }
 
+    isLoaded() {
+        return new Promise((resolve) => {
+            if (!this.image) return resolve();
+            if (this.image.complete) return resolve();
+            this.image.onload = resolve;
+        })
+    }
+
     update() { }
 
     /**
