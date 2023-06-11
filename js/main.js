@@ -73,12 +73,14 @@ function main() {
 
     function onDraw() {
         onUpdate();
+        // canvas leeren
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         // mit weiß füllen, damit das canvas sichtbar ist
         context.fillStyle = "white";
         context.fillRect(0, 0, canvas.width, canvas.height);
 
+        // zeichnen
         background.width = canvas.width;
         background.height = canvas.height;
         background.draw(context);
@@ -87,9 +89,9 @@ function main() {
             entity.draw(context);
         }
 
-        bee.draw(context);
-        ducky.draw(context);
-        key.draw(context);
+        for (const collectable of collectables) {
+            collectable.draw(context);
+        }
 
         // debug stuff
         if (debug) {

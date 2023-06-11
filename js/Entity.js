@@ -112,6 +112,7 @@ export class Entity extends EventEmitter {
                     if (this.lastOrientation == -1) {
                         context.scale(-1, 1);
                         context.drawImage(this.image, frameX, frameY, this.width, this.height, -this.x, this.y, -this.width, this.height);
+                        context.scale(-1, 1);
                     }
                 }
                 if (this.orientation > 0) {
@@ -137,6 +138,7 @@ export class Entity extends EventEmitter {
                     if (this.orientation < 0) {
                         context.scale(-1, 1);
                         context.drawImage(this.image, -this.x, this.y, -this.width, this.height);
+                        context.scale(-1, 1);
                     } else {
                         context.drawImage(this.image, this.x, this.y, this.width, this.height);
                     }
