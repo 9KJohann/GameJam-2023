@@ -4,143 +4,160 @@ import { MoveableEntity } from "./MoveableEntity.js";
 import { resizeCanvas } from "./resizeCanvas.js";
 
 function main() {
-  const debug = true;
+    let font = new FontFace("Press Start 2P", "url(font_Press_Start_2P/PressStart2P-Regular.ttf)");
+    font.load().then(() => {
+        document.fonts.add(font);
+    });
 
-  /** @type {HTMLCanvasElement} */
-  const canvas = document.getElementById("canvas");
-  const context = canvas.getContext("2d");
+    const debug = true;
 
-  let lost = false;
-  //const textFont = new FontFace("Press Start 2P", "url(font_Press_Start_2P/PressStart2P-Regular.ttf)");
+    /** @type {HTMLCanvasElement} */
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
 
-  window.addEventListener("loose", () => {
-    lost = true;
-  });
-  resizeCanvas();
-  window.onresize = resizeCanvas;
+    let lost = false;
+    //const textFont = new FontFace("Press Start 2P", "url(font_Press_Start_2P/PressStart2P-Regular.ttf)");
 
-  const background = new Entity("images/Level_1_Background.png");
-  const bee = new MoveableEntity(
-    "images/BeeAnimation.png",
-    100,
-    100,
-    true,
-    50,
-    50,
-    [
-      {
-        name: "idle",
-        frames: 3,
-      },
-    ]
-  );
-  const ducky = new Entity("images/Ducky.png", 100, 100);
-  const floor = new Entity();
-  const key = new Entity("images/Key.png");
-  const chest = new Entity("images/Chest.png");
+    window.addEventListener("loose", () => {
+        lost = true;
+    });
+    resizeCanvas();
+    window.onresize = resizeCanvas;
 
-  chest.x = 500;
-  chest.y = 200;
+    const background = new Entity("images/Level_1_Background.png");
+    const bee = new MoveableEntity(
+        "images/BeeAnimation.png",
+        100,
+        100,
+        true,
+        50,
+        50,
+        [
+            {
+                name: "idle",
+                frames: 3,
+            },
+        ]
+    );
+    const ducky = new Entity("images/Ducky.png", 100, 100);
+    const floor = new Entity();
+    const key = new Entity("images/Key.png");
+    const chest = new Entity("images/Chest.png");
 
-  key.x = 400;
-  key.y = 200;
-  floor.x = 0;
-  floor.y = 500;
-  floor.width = 1000;
-  floor.height = 100;
+    chest.x = 500;
+    chest.y = 200;
 
-  const input = new InputHandler();
+    key.x = 400;
+    key.y = 200;
+    floor.x = 0;
+    floor.y = 500;
+    floor.width = 1000;
+    floor.height = 100;
 
-  const entities = [bee, floor, key, chest, ducky];
-  function onUpdate() {
-    bee.update(entities);
-    input.updateInput();
+    const input = new InputHandler();
 
-    const move = { x: 0, y: 0 };
-    if (input.upPressed) {
-      move.y -= 10;
-    } else if (input.downPressed) {
-      move.y += 10;
+    const entities = [bee, floor, key, chest, ducky];
+    function onUpdate() {
+        bee.update(entities);
+        input.updateInput();
+
+        const move = { x: 0, y: 0 };
+        if (input.upPressed) {
+            move.y -= 10;
+        } else if (input.downPressed) {
+            move.y += 10;
+        }
+
+        if (input.rightPressed) {
+            move.x += 10;
+        } else if (input.leftPressed) {
+            move.x -= 10;
+        }
+        bee.accelerate(move.x, move.y);
     }
 
-    if (input.rightPressed) {
-      move.x += 10;
-    } else if (input.leftPressed) {
-      move.x -= 10;
+    function onDraw() {
+        onUpdate();
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // mit weiß füllen, damit das canvas sichtbar ist
+        context.fillStyle = "white";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        background.width = canvas.width;
+        background.height = canvas.height;
+        background.draw(context);
+
+        for (const entity of entities) {
+            entity.draw(context);
+        }
+
+        bee.draw(context);
+        ducky.draw(context);
+
+        // debug stuff
+        if (debug) {
+            let line = 0;
+
+            drawDebugText(context, `speedX=${bee.speedX}`, line++);
+            drawDebugText(context, `speedY=${bee.speedY}`, line++);
+            drawDebugText(context, `accelX=${bee.accelerationX}`, line++);
+            drawDebugText(context, `accelY=${bee.accelerationY}`, line++);
+
+            drawDebugText(context, `collisionX=${bee.collidesWith(ducky)}`, line++);
+
+            let debugStrInput = "";
+            if (input.upPressed) {
+                debugStrInput += "UP ";
+            }
+            if (input.downPressed) {
+                debugStrInput += " DOWN ";
+            }
+            if (input.leftPressed) {
+                debugStrInput += " LEFT ";
+            }
+            if (input.rightPressed) {
+                debugStrInput += " RIGHT ";
+            }
+            drawDebugText(context, debugStrInput, line++);
+        }
+        if (lost) {
+            context.fillStyle = "#000000CC";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+
+            context.font = "105px 'Press Start 2P'";
+            context.fillStyle = "red";
+            context.textAlign = "center";
+            context.fillText("you lost", canvas.width / 2, canvas.height / 2);
+
+            context.font = "103px 'Press Start 2P'";
+            context.fillStyle = "orange";
+            context.textAlign = "center";
+            context.fillText("you lost", canvas.width / 2, canvas.height / 2);
+
+            context.font = "100px 'Press Start 2P'";
+            context.fillStyle = "#FFD700";
+            context.textAlign = "center";
+            context.fillText("you lost", canvas.width / 2, canvas.height / 2);
+        }
+        requestAnimationFrame(onDraw);
     }
-    bee.accelerate(move.x, move.y);
-  }
 
-  function onDraw() {
-    onUpdate();
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    function drawDebugText(ctx, text, line) {
+        let debugPosX = 400;
+        let debugPosY = 50;
+        let fontsize = 24;
+        ctx.font = `${fontsize}px arial`;
+        ctx.fillStyle = "#000000";
 
-    // mit weiß füllen, damit das canvas sichtbar ist
-    context.fillStyle = "white";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    background.width = canvas.width;
-    background.height = canvas.height;
-    background.draw(context);
-
-    for (const entity of entities) {
-      entity.draw(context);
+        ctx.fillText(text, debugPosX, debugPosY + line * (fontsize + 4));
     }
 
-    bee.draw(context);
-    ducky.draw(context);
-
-    // debug stuff
-    if (debug) {
-      let line = 0;
-
-      drawDebugText(context, `speedX=${bee.speedX}`, line++);
-      drawDebugText(context, `speedY=${bee.speedY}`, line++);
-      drawDebugText(context, `accelX=${bee.accelerationX}`, line++);
-      drawDebugText(context, `accelY=${bee.accelerationY}`, line++);
-
-      drawDebugText(context, `collisionX=${bee.collidesWith(ducky)}`, line++);
-
-      let debugStrInput = "";
-      if (input.upPressed) {
-        debugStrInput += "UP ";
-      }
-      if (input.downPressed) {
-        debugStrInput += " DOWN ";
-      }
-      if (input.leftPressed) {
-        debugStrInput += " LEFT ";
-      }
-      if (input.rightPressed) {
-        debugStrInput += " RIGHT ";
-      }
-      drawDebugText(context, debugStrInput, line++);
-    }
-    if (lost) {
-
-
-      context.font = "90px Press Start 2P";
-      context.fillStyle = "white";
-      context.textAlgin = "center";
-      context.fillText("you lost", canvas.width / 2, canvas.height / 2);
-    }
-    requestAnimationFrame(onDraw);
-  }
-
-  function drawDebugText(ctx, text, line) {
-    let debugPosX = 400;
-    let debugPosY = 50;
-    let fontsize = 24;
-    ctx.font = `${fontsize}px arial`;
-    ctx.fillStyle = "#000000";
-
-    ctx.fillText(text, debugPosX, debugPosY + line * (fontsize + 4));
-  }
-
-  // wait until all entities loaded
-  Promise
-    .all(entities.map(entity => entity.isLoaded()))
-    .then(() => requestAnimationFrame(onDraw));
+    // wait until all entities loaded
+    Promise
+        .all(entities.map(entity => entity.isLoaded()))
+        .then(() => requestAnimationFrame(onDraw));
 }
 
 window.onload = main;
