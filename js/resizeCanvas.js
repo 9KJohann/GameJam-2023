@@ -1,11 +1,14 @@
 export function resizeCanvas() {
-    const width = window.outerWidth * 1 / 1.25;
-    const height = window.outerHeight;
+    const aspectRatio = 5 / 4;
+    const width = window.innerWidth / aspectRatio;
+    const height = window.innerHeight;
 
     const min = Math.min(width, height);
 
-    canvas.width = min * 1.25;
-    canvas.height = min;
+    if (min > 0) {
+        canvas.width = min * aspectRatio;
+        canvas.height = min;
+    }
 
     console.debug("resizeCanvas", canvas.height, canvas.width);
 }
