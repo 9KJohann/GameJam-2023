@@ -1,5 +1,8 @@
 import { rgbaToHex } from "./utils.js";
-import { symbolForColor } from "./utils.js";
+
+export const WATER = 0;
+export const AIR = 1;
+export const EARTH = 2;
 
 export class LevelTerrain {
 
@@ -36,6 +39,18 @@ export class LevelTerrain {
     }
 
     areaAtPixel(x, y) {
-        return symbolForColor(this.colorAtPixel(x, y));
+        const color = this.colorAtPixel(x, y);
+
+        switch (color) {
+            case "#003ebdff":
+                return WATER;
+            case "#92ffe4ff":// "#9fffe2ff":
+                return AIR;
+            case "#ffc300ff":
+                return EARTH;
+            default:
+                console.debug('unkown area for color', color);
+                return -1;
+        }
     }
 }

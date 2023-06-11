@@ -2,8 +2,9 @@ import { CollectableEntity } from "./CollectableEntity.js";
 import { Entity } from "./Entity.js";
 import { GameContext } from "./GameContext.js";
 import { InputHandler } from "./InputHandler.js";
-import { LevelTerrain } from "./LevelTerrain.js";
+import { LevelTerrain, WATER, EARTH, AIR } from "./LevelTerrain.js";
 import { MoveableEntity } from "./MoveableEntity.js";
+import { Vector2D } from "./Vector2D.js";
 import { resizeCanvas } from "./resizeCanvas.js";
 
 function main() {
@@ -34,10 +35,11 @@ function main() {
     const startScreen = new Entity("images/Start_Background.png");
     const terrain = new LevelTerrain("images/Level_1_Background_Collision.png")
 
+    const jar = new Entity("images/Jar.png", 1170, 690);
     const bee = new MoveableEntity(
         "images/BeeAnimation.png",
-        100,
-        100,
+        1180,
+        700,
         true,
         50,
         50,
@@ -50,8 +52,8 @@ function main() {
     );
     const ducky = new MoveableEntity(
         "images/DuckyAnimation.png",
-        200,
-        200,
+        0,
+        520,
         true,
         50,
         50,
@@ -62,33 +64,30 @@ function main() {
             },
         ]
     );
-    const floor = new Entity();
+
     const key = new CollectableEntity("images/Key.png");
     const chest = new Entity("images/Chest.png");
 
-    chest.x = 500;
-    chest.y = 200;
+    chest.x = 815;
+    chest.y = 960;
 
-    key.x = 400;
-    key.y = 200;
-    floor.x = 0;
-    floor.y = 500;
-    floor.width = 1000;
-    floor.height = 100;
+    key.x = 130;
+    key.y = 145;
 
     const input = new InputHandler();
 
-    const entities = [bee, floor, chest, ducky];
+    const entities = [bee, chest, ducky, jar];
     const collectables = [key];
-
+    gameContext.player = bee;
     function onUpdate() {
         bee.update(entities);
+        ducky.update(entities);
         for (const collectable of collectables) {
             collectable.update(entities);
         }
         input.updateInput();
 
-        const move = { x: 0, y: 0 };
+        const move = new Vector2D(0, 0);
         if (input.upPressed) {
             move.y -= 10;
         } else if (input.downPressed) {
@@ -100,7 +99,29 @@ function main() {
         } else if (input.leftPressed) {
             move.x -= 10;
         }
-        bee.accelerate(move.x, move.y);
+
+
+        gameContext.player.accelerate(move.x, move.y);
+
+        const area = terrain.areaAtPixel(gameContext.player.x, gameContext.player.y);
+        console.log({ area });
+        switch (area) {
+            case WATER:
+                if (gameContext.player == bee) {
+                    window.dispatchEvent(new Event('loose'));
+                }
+                break;
+            case AIR:
+                console.log('air');
+                break;
+            case EARTH:
+                console.log('earth');
+                break;
+            default:
+                console.log('unkown area');
+                break;
+        }
+
     }
 
     function onDraw() {
@@ -132,10 +153,11 @@ function main() {
             if (debug) {
                 let line = 0;
 
-                drawDebugText(context, `speedX=${bee.speedX}`, line++);
-                drawDebugText(context, `speedY=${bee.speedY}`, line++);
-                drawDebugText(context, `accelX=${bee.accelerationX}`, line++);
-                drawDebugText(context, `accelY=${bee.accelerationY}`, line++);
+            drawDebugText(context, `speedX=${bee.speedX}`, line++);
+            drawDebugText(context, `speedY=${bee.speedY}`, line++);
+            drawDebugText(context, `accelX=${bee.accelerationX}`, line++);
+            drawDebugText(context, `accelY=${bee.accelerationY}`, line++);
+            drawDebugText(context, JSON.stringify({ position: new Vector2D(gameContext.player.x, gameContext.player.y) }), line++);
 
                 drawDebugText(context, `collisionX=${bee.collidesWith(ducky)}`, line++);
 
