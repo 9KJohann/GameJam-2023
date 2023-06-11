@@ -7,12 +7,14 @@ const createWindow = () => {
     win.loadFile('index.html');
     win.show();
 
-    win.addEventListener('keydown', (e) => {
-        if (e.key == "Escape") {
-            win.quit();
-        }
-    }, true)
     return win;
 }
+
+app.on('keydown', (e) => {
+    if (e.key == "Escape") {
+        win.quit();
+        win.close();
+    }
+});
 
 app.whenReady().then(() => createWindow());
