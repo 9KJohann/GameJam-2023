@@ -21,6 +21,7 @@ function main() {
 
     let lost = false;
     let start = false;
+    let won = false;
     //const textFont = new FontFace("Press Start 2P", "url(font_Press_Start_2P/PressStart2P-Regular.ttf)");
 
     window.addEventListener("loose", () => {
@@ -39,9 +40,16 @@ function main() {
         }
     });
 
+    window.addEventListener(InputHandler.EVENT_DROP, () => {
+        gameContext.player?.drop();
+    });
+
     const background = new Entity("images/Level_1_Background.png");
     const startScreen = new Entity("images/Start_Background.png");
     const terrain = new LevelTerrain("images/Level_1_Background_Collision.png")
+
+    const chest = new Jar("images/Chest_Opened.png", "images/Chest_Closed.png", 815, 945);
+    chest.close();
 
     const jar = new Jar("images/Jar_Opened.png", "images/Jar_Closed.png", 1056, 453);
     jar.close();
@@ -83,24 +91,26 @@ function main() {
         ]
     );
 
+    const duckyHasKey = true;
+
     ducky.on('collision', (entity) => {
         if (entity == jar) {
             jar.open();
         }
+        if (entity == chest && duckyHasKey) {
+            chest.open();
+            won = true;
+        }
     })
 
     const key = new CollectableEntity("images/Key.png");
-    const chest = new Entity("images/Chest.png");
-
-    chest.x = 815;
-    chest.y = 960;
 
     key.x = 130;
     key.y = 145;
 
     const input = new InputHandler();
 
-    const entities = [bee, chest, ducky, jar];
+    const entities = [bee, ducky, jar, chest];
     const collectables = [key];
     gameContext.player = ducky;
     function onUpdate() {
@@ -127,13 +137,6 @@ function main() {
 
         if (gameContext.player == bee && !jar.isOpened()) {
             return;
-        }
-
-        //TODO correct drop button
-        if (input.downPressed && input.upPressed) {
-            //console.log("drop");
-            bee.drop();
-
         }
 
 
