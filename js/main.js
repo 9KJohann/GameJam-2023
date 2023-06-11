@@ -1,3 +1,4 @@
+import { CollectableEntity } from "./CollectableEntity.js";
 import { Entity } from "./Entity.js";
 import { InputHandler } from "./InputHandler.js";
 import { MoveableEntity } from "./MoveableEntity.js";
@@ -30,7 +31,7 @@ function main() {
     );
     const ducky = new Entity("images/Ducky.png", 100, 100);
     const floor = new Entity();
-    const key = new Entity("images/Key.png");
+    const key = new CollectableEntity("images/Key.png");
     const chest = new Entity("images/Chest.png");
 
     chest.x = 500;
@@ -45,9 +46,14 @@ function main() {
 
     const input = new InputHandler();
 
-    const entities = [bee, floor, key, chest, ducky];
+    const entities = [bee, floor, chest, ducky];
+    const collectables = [key];
+
     function onUpdate() {
         bee.update(entities);
+        for (const collectable of collectables) {
+            collectable.update(entities);
+        }
         input.updateInput();
 
         const move = { x: 0, y: 0 };
@@ -83,6 +89,7 @@ function main() {
 
         bee.draw(context);
         ducky.draw(context);
+        key.draw(context);
 
         // debug stuff
         if (debug) {
@@ -109,6 +116,7 @@ function main() {
                 debugStrInput += " RIGHT ";
             }
             drawDebugText(context, debugStrInput, line++);
+            drawDebugText(context, `keyCollected=${key.isCollected()}`, line++);
         }
 
         requestAnimationFrame(onDraw);

@@ -82,7 +82,7 @@ export class Entity extends EventEmitter {
     draw(context) {
         if (this.image) {
             if (this.animatable) {
-                console.log(this.spriteAnimations);
+                //console.log(this.spriteAnimations);
                 let position =
                     Math.floor(this.gameFrame / this.staggerFrames) %
                     this.spriteAnimations[this.currentState].loc.length;
@@ -147,6 +147,7 @@ export class Entity extends EventEmitter {
 
     /** @param {Entity} other */
     collidesWith(other) {
+        if (this === other) return "none";
         let dx = this.x + this.width / 2 - (other.x + other.width / 2);
         let dy = this.y + this.height / 2 - (other.y + other.height / 2);
         let width = (this.width + other.width) / 2;
@@ -161,6 +162,11 @@ export class Entity extends EventEmitter {
             } else {
                 collision = crossWidth > -crossHeight ? "right" : "top";
             }
+        }
+
+        if (collision !== "none") {
+            //console.log("collision", this, other, collision);
+            this.emit("collision", other, collision);
         }
         return collision;
     }
