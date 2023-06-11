@@ -37,7 +37,7 @@ export class InputHandler extends AbstractInputHandler {
         this.controllerEnabled = true;
 
         this.keyboardInput = new InputHandlerKeyboard();
-        this.controllerInput = new InputHandlerController();
+        this.controllerInput = null; // new InputHandlerController();
     }
 
     // Constants
@@ -52,10 +52,10 @@ export class InputHandler extends AbstractInputHandler {
             this.controllerInput.updateInput();
         }
 
-        this.upPressed = this.controllerInput.upPressed || this.keyboardInput.upPressed;
-        this.downPressed = this.controllerInput.downPressed || this.keyboardInput.downPressed;
-        this.leftPressed = this.controllerInput.leftPressed || this.keyboardInput.leftPressed;
-        this.rightPressed = this.controllerInput.rightPressed || this.keyboardInput.rightPressed;
+        this.upPressed = this.controllerInput?.upPressed || this.keyboardInput?.upPressed;
+        this.downPressed = this.controllerInput?.downPressed || this.keyboardInput?.downPressed;
+        this.leftPressed = this.controllerInput?.leftPressed || this.keyboardInput?.leftPressed;
+        this.rightPressed = this.controllerInput?.rightPressed || this.keyboardInput?.rightPressed;
 
         // console.log("Up   : " + this.upPressed);
         // console.log("Down : " + this.downPressed);
