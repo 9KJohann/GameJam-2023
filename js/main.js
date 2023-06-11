@@ -1,4 +1,6 @@
+import { CollectableEntity } from "./CollectableEntity.js";
 import { Entity } from "./Entity.js";
+import { GameContext } from "./GameContext.js";
 import { InputHandler } from "./InputHandler.js";
 import { LevelTerrain } from "./LevelTerrain.js";
 import { MoveableEntity } from "./MoveableEntity.js";
@@ -6,13 +8,11 @@ import { resizeCanvas } from "./resizeCanvas.js";
 
 function main() {
     const debug = true;
-
     /** @type {HTMLCanvasElement} */
     const canvas = document.getElementById("canvas");
-    const context = canvas.getContext("2d");
+    const gameContext = new GameContext(canvas);
+    const context = gameContext.renderingContext;
 
-    resizeCanvas();
-    window.onresize = resizeCanvas;
 
     const background = new Entity("images/Level_1_Background.png");
     const terrain = new LevelTerrain("images/Level_1_Background_Collision.png")
@@ -27,13 +27,26 @@ function main() {
         [
             {
                 name: "idle",
-                frames: 3,
+                frames: 4,
             },
         ]
     );
-    const ducky = new Entity("images/Ducky.png", 200, 200);
+    const ducky = new MoveableEntity(
+        "images/DuckyAnimation.png",
+        200,
+        200,
+        true,
+        50,
+        50,
+        [
+            {
+                name: "idle",
+                frames: 5,
+            },
+        ]
+    );
     const floor = new Entity();
-    const key = new Entity("images/Key.png");
+    const key = new CollectableEntity("images/Key.png");
     const chest = new Entity("images/Chest.png");
 
     chest.x = 500;
@@ -48,9 +61,14 @@ function main() {
 
     const input = new InputHandler();
 
-    const entities = [bee, floor, key, chest, ducky];
+    const entities = [bee, floor, chest, ducky];
+    const collectables = [key];
+
     function onUpdate() {
         bee.update(entities);
+        for (const collectable of collectables) {
+            collectable.update(entities);
+        }
         input.updateInput();
 
         const move = { x: 0, y: 0 };
@@ -70,22 +88,27 @@ function main() {
 
     function onDraw() {
         onUpdate();
+        // canvas leeren
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         // mit weiß füllen, damit das canvas sichtbar ist
         context.fillStyle = "white";
         context.fillRect(0, 0, canvas.width, canvas.height);
 
+        // zeichnen
         background.width = canvas.width;
         background.height = canvas.height;
-        background.draw(context);
+        //background.draw(context); // eigentlich sollte der Background so gezeichnet werden, allerdings wurde etwas in Entity geändert, wodurch der background nicht mehr richtig gezeichnet wird.
+        context.drawImage(background.image, 0, 0);
+
 
         for (const entity of entities) {
             entity.draw(context);
         }
 
-        bee.draw(context);
-        ducky.draw(context);
+        for (const collectable of collectables) {
+            collectable.draw(context);
+        }
 
         // debug stuff
         if (debug) {
@@ -115,6 +138,7 @@ function main() {
 
             drawDebugText(context, "Bee is at: " + terrain.areaAtPixel(bee.x, bee.y), line++);
             drawDebugText(context, "Color is: " + terrain.colorAtPixel(bee.x, bee.y), line++);
+            drawDebugText(context, `keyCollected=${key.isCollected()}`, line++);
         }
 
         requestAnimationFrame(onDraw);
