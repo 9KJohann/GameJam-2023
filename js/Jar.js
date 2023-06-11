@@ -12,6 +12,10 @@ export class Jar extends Entity {
         this.image = this.openedImage;
     }
 
+    isOpened() {
+        return this.openedImage == this.image;
+    }
+
     close() {
         this.image = this.closedImage;
     }

@@ -108,11 +108,13 @@ function main() {
             move.x -= 10;
         }
 
+        if (gameContext.player == bee && !jar.isOpened()) {
+            return;
+        }
 
         gameContext.player.accelerate(move.x, move.y);
 
         const area = terrain.areaAtPixel(gameContext.player.x, gameContext.player.y);
-        console.log({ area });
         switch (area) {
             case WATER:
                 if (gameContext.player == bee) {
@@ -120,13 +122,10 @@ function main() {
                 }
                 break;
             case AIR:
-                console.log('air');
                 break;
             case EARTH:
-                console.log('earth');
                 break;
             default:
-                console.log('unkown area');
                 break;
         }
 
