@@ -126,7 +126,9 @@ function main() {
 
     function onDraw() {
         if (start) {
-            onUpdate();
+            if (!lost) {
+                onUpdate();
+            }
             // canvas leeren
             context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -153,11 +155,11 @@ function main() {
             if (debug) {
                 let line = 0;
 
-            drawDebugText(context, `speedX=${bee.speedX}`, line++);
-            drawDebugText(context, `speedY=${bee.speedY}`, line++);
-            drawDebugText(context, `accelX=${bee.accelerationX}`, line++);
-            drawDebugText(context, `accelY=${bee.accelerationY}`, line++);
-            drawDebugText(context, JSON.stringify({ position: new Vector2D(gameContext.player.x, gameContext.player.y) }), line++);
+                drawDebugText(context, `speedX=${bee.speedX}`, line++);
+                drawDebugText(context, `speedY=${bee.speedY}`, line++);
+                drawDebugText(context, `accelX=${bee.accelerationX}`, line++);
+                drawDebugText(context, `accelY=${bee.accelerationY}`, line++);
+                drawDebugText(context, JSON.stringify({ position: new Vector2D(gameContext.player.x, gameContext.player.y) }), line++);
 
                 drawDebugText(context, `collisionX=${bee.collidesWith(ducky)}`, line++);
 
