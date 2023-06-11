@@ -6,7 +6,7 @@ import { LevelTerrain, WATER, EARTH, AIR } from "./LevelTerrain.js";
 import { MoveableEntity } from "./MoveableEntity.js";
 import { Vector2D } from "./Vector2D.js";
 import { Jar } from "./Jar.js";
-
+window.addEventListener('keydown', e => e.key == 'Escape' && window.close())
 function main() {
     let font = new FontFace("Press Start 2P", "url(font_Press_Start_2P/PressStart2P-Regular.ttf)");
     font.load().then(() => {
