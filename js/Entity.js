@@ -1,4 +1,6 @@
-export class Entity {
+import { EventEmitter } from "./EventEmitter.js";
+
+export class Entity extends EventEmitter {
   /**
    *
    * @param {string} imageSrc path to image
@@ -18,6 +20,7 @@ export class Entity {
     frameWidth = 32,
     animationStates = []
   ) {
+    super();
     this.x = x;
     this.y = y;
 
@@ -25,7 +28,7 @@ export class Entity {
       this.image = new Image();
       this.image.src = imageSrc;
     }
-
+    this.orientation = 1;
     if (!animatable) {
       this.width = this.image?.width ?? 0;
       this.height = this.image?.height ?? 0;
@@ -60,38 +63,64 @@ export class Entity {
     }
   }
 
-  update() {}
+  update() { }
 
   /**
    *
    * @param {CanvasRenderingContext2D} context
    */
   draw(context) {
-    if (this.animatable) {
-      console.log(this.spriteAnimations);
-      let position =
-        Math.floor(this.gameFrame / this.staggerFrames) %
-        this.spriteAnimations[this.currentState].loc.length;
+    if (this.image) {
+      if (this.animatable) {
+        console.log(this.spriteAnimations);
+        let position =
+          Math.floor(this.gameFrame / this.staggerFrames) %
+          this.spriteAnimations[this.currentState].loc.length;
 
-      let frameX = this.spriteAnimations[this.currentState].loc[position].x;
-      let frameY = this.spriteAnimations[this.currentState].loc[position].y;
+        let frameX = this.spriteAnimations[this.currentState].loc[position].x;
+        let frameY = this.spriteAnimations[this.currentState].loc[position].y;
 
-      context.drawImage(
-        this.image,
-        frameX,
-        frameY,
-        this.width,
-        this.height,
-        this.x,
-        this.y,
-        this.width,
-        this.height
-      );
+        if (this.orientation < 0) {
+          context.scale(-1, 1);
+          context.drawImage(
+            this.image,
+            frameX,
+            frameY,
+            this.width,
+            this.height,
+            -this.x,
+            this.y,
+            -this.width,
+            this.height
+          );
+          context.scale(-1, 1);
+        } else {
+          context.drawImage(
+            this.image,
+            frameX,
+            frameY,
+            this.width,
+            this.height,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+          );
+        }
 
-      this.gameFrame++;
-    } else {
-      if (this.image) {
-        context.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+
+        this.gameFrame++;
+      } else {
+        {
+          if (this.orientation < 0) {
+            context.scale(-1, 1);
+            context.drawImage(this.image, -this.x, this.y, -this.width, this.height);
+            context.scale(-1, 1);
+          } else {
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+          }
+        }
       }
     }
   }

@@ -38,6 +38,7 @@ export class MoveableEntity extends Entity {
   update(entityList) {
     // Call Superclass Update
     super.update();
+    this.orientation = -this.speedX;
 
 
 
@@ -66,7 +67,6 @@ export class MoveableEntity extends Entity {
       this.speedY = -this.maxSpeedY;
     }
 
-    // console.log(Math.abs(this.speedX));
     if (Math.abs(this.speedX) < this.minSpeed) {
       this.speedX = 0.0;
     }
@@ -85,7 +85,6 @@ export class MoveableEntity extends Entity {
    */
   move(entityList) {
     let collsions = this.collidesWithArray(entityList);
-    //console.log(collsions);
     if (collsions.includes("top")) {
       this.speedY = Math.min(this.speedY, 0);
     }
@@ -96,7 +95,7 @@ export class MoveableEntity extends Entity {
       this.speedX = Math.min(this.speedX, 0);
     }
     if (collsions.includes("right")) {
-      this.speedX = Math.max(this.speedY, 0);
+      this.speedX = Math.max(this.speedX, 0);
     }
 
     // Wall collision left
