@@ -107,22 +107,19 @@ export class MoveableEntity extends Entity {
       this.y = 0;
     }
     // Wall collision right
-    let canvasWidth = document.getElementById("canvas").width;
-    if (this.x > canvasWidth - this.width) {
-      this.x = canvasWidth - this.width;
+    if (this.x > 1280 - this.width) {
+      this.x = 1280 - this.width;
     }
     // Wall collision bottom
-    let canvasHeight = document.getElementById("canvas").height;
-    if (this.y > canvasHeight - this.height) {
-      this.y = canvasHeight - this.height;
+    if (this.y > 1024 - this.height) {
+      this.y = 1024 - this.height;
     }
 
-    // if (!(collsions.includes("bottom") || collsions.includes("top"))) {
+    // Check terrain collision
+
+
     this.y += this.speedY;
-    // }
-    // if (!(collsions.includes("left") || collsions.includes("right"))) {
     this.x += this.speedX;
-    // }
   }
 
   /**
