@@ -219,6 +219,9 @@ function main() {
             if (lost) {
                 drawEndScreen();
             }
+            if (won) {
+                drawWonScreen();
+            }
         } else {
             drawStartScreen();
 
@@ -229,7 +232,6 @@ function main() {
     function drawEndScreen() {
         context.fillStyle = "#000000CC";
         context.fillRect(0, 0, 1280, 1024);
-
 
         context.font = "105px 'Press Start 2P'";
         context.fillStyle = "red";
@@ -245,7 +247,26 @@ function main() {
         context.fillStyle = "#FFD700";
         context.textAlign = "center";
         context.fillText("you lost", 1280 / 2, 1024 / 2);
+    }
 
+    function drawWonScreen() {
+        context.fillStyle = "#000000CC";
+        context.fillRect(0, 0, 1280, 1024);
+
+        context.font = "155px 'Press Start 2P'";
+        context.fillStyle = "red";
+        context.textAlign = "center";
+        context.fillText("you won", 1280 / 2, 1024 / 2);
+
+        context.font = "153px 'Press Start 2P'";
+        context.fillStyle = "orange";
+        context.textAlign = "center";
+        context.fillText("you won", 1280 / 2, 1024 / 2);
+
+        context.font = "150px 'Press Start 2P'";
+        context.fillStyle = "#FFD700";
+        context.textAlign = "center";
+        context.fillText("you won", 1280 / 2, 1024 / 2);
     }
 
     function drawStartScreen() {
