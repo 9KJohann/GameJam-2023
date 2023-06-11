@@ -5,7 +5,7 @@ import { InputHandler } from "./InputHandler.js";
 import { LevelTerrain, WATER, EARTH, AIR } from "./LevelTerrain.js";
 import { MoveableEntity } from "./MoveableEntity.js";
 import { Vector2D } from "./Vector2D.js";
-import { resizeCanvas } from "./resizeCanvas.js";
+import { Jar } from "./Jar.js";
 
 function main() {
     let font = new FontFace("Press Start 2P", "url(font_Press_Start_2P/PressStart2P-Regular.ttf)");
@@ -31,15 +31,25 @@ function main() {
         start = true;
     });
 
+    window.addEventListener(InputHandler.EVENT_SWAP, () => {
+        if (gameContext.player == bee) {
+            gameContext.player = ducky;
+        } else {
+            gameContext.player = bee;
+        }
+    });
+
     const background = new Entity("images/Level_1_Background.png");
     const startScreen = new Entity("images/Start_Background.png");
     const terrain = new LevelTerrain("images/Level_1_Background_Collision.png")
 
-    const jar = new Entity("images/Jar.png", 1170, 690);
+    const jar = new Jar("images/Jar_Opened.png", "images/Jar_Closed.png", 1056, 453);
+    jar.close();
+
     const bee = new MoveableEntity(
         "images/BeeAnimation.png",
-        1180,
-        700,
+        1055,
+        465,
         true,
         50,
         45,
@@ -69,6 +79,12 @@ function main() {
         ]
     );
 
+    ducky.on('collision', (entity) => {
+        if (entity == jar) {
+            jar.open();
+        }
+    })
+
     const key = new CollectableEntity("images/Key.png");
     const chest = new Entity("images/Chest.png");
 
@@ -82,7 +98,7 @@ function main() {
 
     const entities = [bee, chest, ducky, jar];
     const collectables = [key];
-    gameContext.player = bee;
+    gameContext.player = ducky;
     function onUpdate() {
         bee.update(entities);
         ducky.update(entities);
@@ -105,6 +121,10 @@ function main() {
         }
 
 
+        if (gameContext.player == bee && !jar.isOpened()) {
+            return;
+        }
+
         //TODO correct drop button
         if (input.downPressed && input.upPressed) {
             //console.log("drop");
@@ -116,7 +136,6 @@ function main() {
         gameContext.player.accelerate(move.x, move.y);
 
         const area = terrain.areaAtPixel(gameContext.player.x, gameContext.player.y);
-        //console.log({ area });
         switch (area) {
             case WATER:
                 if (gameContext.player == bee) {
@@ -124,13 +143,10 @@ function main() {
                 }
                 break;
             case AIR:
-                // console.log('air');
                 break;
             case EARTH:
-                // console.log('earth');
                 break;
             default:
-                // console.log('unkown area');
                 break;
         }
 
@@ -190,8 +206,8 @@ function main() {
                 }
                 drawDebugText(context, debugStrInput, line++);
 
-                drawDebugText(context, "Bee is at: " + terrain.areaAtPixel(bee.x, bee.y), line++);
-                drawDebugText(context, "Color is: " + terrain.colorAtPixel(bee.x, bee.y), line++);
+                drawDebugText(context, "Bee is at: " + terrain.areaAtPixel(gameContext.player.x, gameContext.player.y), line++);
+                drawDebugText(context, "Color is: " + terrain.colorHexAtPixel(gameContext.player.x, gameContext.player.y), line++);
                 drawDebugText(context, `keyCollected=${key.isCollected()}`, line++);
             }
             if (lost) {
@@ -201,7 +217,6 @@ function main() {
             drawStartScreen();
 
         }
-
         requestAnimationFrame(onDraw);
     }
 

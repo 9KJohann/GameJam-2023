@@ -33,24 +33,40 @@ export class LevelTerrain {
         let colorB = this.imageData.data[index + 2];
         let colorA = this.imageData.data[index + 3];
 
+        return { "R": colorR, "G": colorG, "B": colorB, "A": colorA };
+    }
+
+    colorHexAtPixel(x, y) {
+        const color = this.colorAtPixel(x, y);
+
         // console.log(`index: ${index}`)
-        return rgbaToHex(colorR, colorG, colorB, colorA);
+        return rgbaToHex(color.R, color.G, color.B, color.A);
         alert("help");
     }
 
     areaAtPixel(x, y) {
         const color = this.colorAtPixel(x, y);
 
-        switch (color) {
-            case "#003ebdff":
-                return WATER;
-            case "#92ffe4ff":// "#9fffe2ff":
-                return AIR;
-            case "#ffc300ff":
-                return EARTH;
-            default:
-                console.debug('unkown area for color', color);
-                return -1;
+        if (color.R > color.B && color.R > color.B) {
+            return EARTH;
+        } else if (color.B > color.R && color.B > color.G) {
+            return WATER;
+        } else if (color.G > color.R && color.G > color.B) {
+            return AIR;
+        } else {
+            console.debug('unkown area for color', color);
+            return -1;
         }
+        // switch (color) {
+        //     case "#003ebdff":
+        //         return WATER;
+        //     case "#92ffe4ff":// "#9fffe2ff":
+        //         return AIR;
+        //     case "#ffc300ff":
+        //         return EARTH;
+        //     default:
+        //         console.debug('unkown area for color', color);
+        //         return -1;
+        // }
     }
 }
