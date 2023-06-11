@@ -289,6 +289,20 @@ function main() {
         context.fillStyle = "black";
         context.textAlign = "center";
         context.fillText("start", 1280 / 2, 1024 / 2 + fontsize / 2);
+        // explanation box
+        context.fillStyle = "#FFD70099";
+        context.fillRect(0, 0, 400, 100);
+        fontsize = 25;
+        let line = 0;
+        let startpoint = 53
+        context.font = `${fontsize}px 'Press Start 2P'`;
+        context.fillStyle = "black";
+        context.textAlign = "left";
+        context.fillText("yellow: switch", 5, (startpoint + (line++) * fontsize));
+        context.fillText("green:  drop", 5, (startpoint + (line++) * fontsize));
+
+
+
     }
 
 
