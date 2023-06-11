@@ -178,8 +178,8 @@ function main() {
                 }
                 drawDebugText(context, debugStrInput, line++);
 
-                drawDebugText(context, "Bee is at: " + terrain.areaAtPixel(bee.x, bee.y), line++);
-                drawDebugText(context, "Color is: " + terrain.colorAtPixel(bee.x, bee.y), line++);
+                drawDebugText(context, "Bee is at: " + terrain.areaAtPixel(gameContext.player.x, gameContext.player.y), line++);
+                drawDebugText(context, "Color is: " + terrain.colorHexAtPixel(gameContext.player.x, gameContext.player.y), line++);
                 drawDebugText(context, `keyCollected=${key.isCollected()}`, line++);
             }
             if (lost) {
@@ -189,7 +189,6 @@ function main() {
             drawStartScreen();
 
         }
-
         requestAnimationFrame(onDraw);
     }
 
