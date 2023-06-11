@@ -82,7 +82,7 @@ export class Entity extends EventEmitter {
     draw(context) {
         if (this.image) {
             if (this.animatable) {
-                console.log(this.spriteAnimations);
+                //console.log(this.spriteAnimations);
                 let position =
                     Math.floor(this.gameFrame / this.staggerFrames) %
                     this.spriteAnimations[this.currentState].loc.length;

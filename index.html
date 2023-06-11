@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/font_Press_Start_2P/PressStart2P-Regular.ttf">
+
     <title>GameJam</title>
     <style>
         * {
@@ -38,6 +40,7 @@
 
     </div>
     <div id="container">
+        <button onclick="window.dispatchEvent(new Event('loose'));"> verlieren </button>
         <!-- filler kann dann genutzt werden um ein hintergrundbild anzuzeigen, falls die aspect ratio nicht passt -->
         <div id="filler"></div>
         <canvas id="canvas"></canvas>
