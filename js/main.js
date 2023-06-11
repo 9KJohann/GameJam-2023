@@ -42,8 +42,12 @@ function main() {
         700,
         true,
         50,
-        50,
+        45,
         [
+            {
+                name: "carry",
+                frames: 4,
+            },
             {
                 name: "idle",
                 frames: 4,
@@ -101,10 +105,18 @@ function main() {
         }
 
 
+        //TODO correct drop button
+        if (input.downPressed && input.upPressed) {
+            //console.log("drop");
+            bee.drop();
+
+        }
+
+
         gameContext.player.accelerate(move.x, move.y);
 
         const area = terrain.areaAtPixel(gameContext.player.x, gameContext.player.y);
-        console.log({ area });
+        //console.log({ area });
         switch (area) {
             case WATER:
                 if (gameContext.player == bee) {
@@ -112,13 +124,13 @@ function main() {
                 }
                 break;
             case AIR:
-                console.log('air');
+                // console.log('air');
                 break;
             case EARTH:
-                console.log('earth');
+                // console.log('earth');
                 break;
             default:
-                console.log('unkown area');
+                // console.log('unkown area');
                 break;
         }
 

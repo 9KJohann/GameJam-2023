@@ -142,8 +142,8 @@ class InputHandlerKeyboard extends AbstractInputHandler {
             // Swap shall only occur once for each keydown event
             if (event.code == this.KEY_SWAP) { window.dispatchEvent(new Event(InputHandler.EVENT_SWAP)) }
 
-            console.log(event)
-            console.log(this.keys)
+            //console.log(event)
+            // console.log(this.keys)
         });
 
         window.addEventListener("keyup", (event) => {
@@ -156,8 +156,8 @@ class InputHandlerKeyboard extends AbstractInputHandler {
             if (event.code == this.KEY_LEFT) { this.leftPressed = false; }
             if (event.code == this.KEY_RIGHT) { this.rightPressed = false; }
 
-            console.log(event)
-            console.log(this.keys)
+            // console.log(event)
+            // console.log(this.keys)
         });
     }
 
