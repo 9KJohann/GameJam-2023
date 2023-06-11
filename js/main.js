@@ -1,5 +1,6 @@
 import { Entity } from "./Entity.js";
 import { InputHandler } from "./InputHandler.js";
+import { LevelTerrain } from "./LevelTerrain.js";
 import { MoveableEntity } from "./MoveableEntity.js";
 import { resizeCanvas } from "./resizeCanvas.js";
 
@@ -14,6 +15,8 @@ function main() {
     window.onresize = resizeCanvas;
 
     const background = new Entity("images/Level_1_Background.png");
+    const terrain = new LevelTerrain("images/Level_1_Background_Collision.png")
+
     const bee = new MoveableEntity(
         "images/BeeAnimation.png",
         100,
@@ -100,15 +103,18 @@ function main() {
                 debugStrInput += "UP ";
             }
             if (input.downPressed) {
-                debugStrInput += " DOWN ";
+                debugStrInput += "DOWN ";
             }
             if (input.leftPressed) {
-                debugStrInput += " LEFT ";
+                debugStrInput += "LEFT ";
             }
             if (input.rightPressed) {
-                debugStrInput += " RIGHT ";
+                debugStrInput += "RIGHT ";
             }
             drawDebugText(context, debugStrInput, line++);
+
+            drawDebugText(context, "Bee is at: " + terrain.areaAtPixel(bee.x, bee.y), line++);
+            drawDebugText(context, "Color is: " + terrain.colorAtPixel(bee.x, bee.y), line++);
         }
 
         requestAnimationFrame(onDraw);
