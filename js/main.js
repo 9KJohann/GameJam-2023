@@ -51,13 +51,13 @@ function main() {
     const chest = new Jar("images/Chest_Opened.png", "images/Chest_Closed.png", 815, 945);
     chest.close();
 
-    const jar = new Jar("images/Jar_Opened.png", "images/Jar_Closed.png", 1056, 453);
+    const jar = new Jar("images/Jar_Opened.png", "images/Jar_Closed.png", 1050, 460);
     jar.close();
 
     const bee = new MoveableEntity(
         "images/BeeAnimation.png",
         1055,
-        465,
+        470,
         true,
         50,
         45,
