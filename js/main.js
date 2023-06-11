@@ -29,7 +29,7 @@ function main() {
             },
         ]
     );
-    const ducky = new Entity("images/Ducky.png", 100, 100);
+    const ducky = new Entity("images/Ducky.png", 200, 200);
     const floor = new Entity();
     const key = new CollectableEntity("images/Key.png");
     const chest = new Entity("images/Chest.png");
